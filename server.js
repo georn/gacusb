@@ -16,7 +16,13 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
+app.get('/login', (req, res) => {
+  res.send('Login');
+});
+
 // Server listener
 app.listen(PORT, () => {
   console.log('Server is running on port ' + PORT);
 });
+
+module.exports = app;
