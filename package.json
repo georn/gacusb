@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node_modules/mocha/bin/mocha ./tests"
+    "test": "node_modules/mocha/bin/mocha ./specs"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
+    "lodash": "^4.17.4",
     "mongoose": "^5.0.1",
     "nodemon": "^1.14.11"
   },

@@ -1,17 +1,40 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); // ORM
 
-// const Schema = mongoose.Schema;  same as line below
+// {
+//   username: 'admin',
+//     password: 'giwwenfondoadqwcqwdgre',
+//       tokens: [{
+//         access: 'auth',
+//         token: 'fnqojnjoakmlfnoqcasmkfnqokw'
+//       }]
+// }
+
+// const Schema = mongoose.Schema;  same as line below ES6
 const { Schema } = mongoose;
-// comment
+
+// User Schema - SPIKE
 const userSchema = new Schema({
-  usersname: {
+  username: {
     type: String,
     unique: true,
+    minlength: 5,
+    maxlength: 5
   },
   password: {
     type: String,
     unique: true,
-  }
+    minlength: 6
+  },
+  tokens: [{
+    access: {
+      type: String,
+      required: true
+    },
+    token: {
+      type: String,
+      require: true
+    }
+  }]
 });
 
 mongoose.model('users', userSchema);
