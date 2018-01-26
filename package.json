@@ -22,6 +22,7 @@
   "homepage": "https://github.com/georn/gacusb#readme",
   "dependencies": {
     "bcrypt": "^1.0.3",
+    "client-sessions": "^0.8.0",
     "connect-mongo": "^2.0.1",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
