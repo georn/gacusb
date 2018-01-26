@@ -30,7 +30,7 @@ app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
   console.log(req.session);
-  res.render('index');
+  res.render('index', { user: req.session.user });
 });
 
 // Routes - Authentication
@@ -55,6 +55,12 @@ app.post('/login', (req, res) => {
   } else {
     console.log('Invalid user credentials');
   }
+});
+
+// POST /logout - SPIKED
+app.post('/logout', (req, res) => {
+  req.session.reset();
+  res.redirect('/');
 });
 
 // Server listener
