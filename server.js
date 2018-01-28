@@ -4,18 +4,17 @@ const user = require('./models/User.js');
 const session = require('client-sessions');
 const keys = require('./config/devKeys');
 const bodyParser = require('body-parser');
-const _ = require('lodash');
 
 const app = express();
 const PORT = 3000;
 
-// Database connection - SPIKE
+// Remote database connection - SPIKED
 require('./services/mongoose');
 
-// bodyParser Middleware Config
+// bodyParser needed Middleware Configuration for persisting session
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Session Middleware - client-session
+// client-session Middleware -
 app.use(
   session({
     cookieName: 'session',
@@ -24,10 +23,12 @@ app.use(
   })
 );
 
-// Set the views folder and the view engine - Middleware
+// Set the views folder '/views' and the view engine to 'ejs' - Middleware
 app.set('views', path.join(__dirname + '/views'));
 app.set('view engine', 'ejs');
 
+// Route - HOME
+// GET /
 app.get('/', (req, res) => {
   console.log(req.session);
   res.render('index', { user: req.session.user });
@@ -39,27 +40,25 @@ app.get('/login', (req, res) => {
   res.render('login');
 });
 
-// POST /login {username, password} - SPIKED
+// POST /login {password} - SPIKED
 app.post('/login', (req, res) => {
-  // let body = _.pick(req.body, ['username', 'password']);
-  // console.log(req.body);
 
-  let user = {
-    username: 'dummyUser',
+  // Fake Password for authentication
+  let dummyPassword = { 
     password: 'password'
   };
-  if (req.body.password === user.password) {
-    req.session.user = user;
-    // res.send(req.session.user);
+
+  if (req.body.password === user.password) { // NEXT STEP - Compare with encrypted password in the database
+    req.session.user = user; // Saving Cookie for persisting session
     res.redirect('/');
   } else {
-    console.log('Invalid user credentials');
+    console.log('Invalid user credentials'); // Passwords don't match
   }
 });
 
 // POST /logout - SPIKED
 app.post('/logout', (req, res) => {
-  req.session.reset();
+  req.session.reset(); // Reseting session
   res.redirect('/');
 });
 

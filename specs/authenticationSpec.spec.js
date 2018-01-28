@@ -5,7 +5,7 @@ const server = require('../server');
 const expect = require('chai').expect;
 
 
-// Telling chai to use the chai-http plugin
+// Configuring chai to use the chai-http plugin for HTTP VERBS Test
 chai.use(chaiHttp);
 
 describe('Server', () => {
