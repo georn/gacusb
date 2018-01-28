@@ -12,17 +12,7 @@ const UserSchema = new Schema({
     unique: true,
     required: true,
     minlength: 6
-  },
-  tokens: [{
-    access: {
-      type: String,
-      required: true
-    },
-    token: {
-      type: String,
-      require: true
-    }
-  }]
+  }
 });
 
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
