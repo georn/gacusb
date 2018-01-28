@@ -47,41 +47,12 @@ app.get('/signup', (req, res) => {
 // POST /signup
 app.post('/signup', (req, res) => {
 
-  var user = new User();
-  console.log("===USER OBJECT===");
-  console.log(user);
-  console.log("===END OF USER OBJECT===");
-  console.log("===PASSWORD FROM FORM===");
-  console.log(req.body.password);
-  console.log("===END OF PASSWORD FROM FORM===");
-  console.log("===ENCRYPTION PASSWORD PROCESS");
-  console.log("===GENERATING SALT");
-
-  encryptedPassword = bcrypt.genSalt(10, (err, salt) => {
-    if (err) {
-      console.log("===SALT GENERATION FAILED===");
-      return next(err);
-    } else {
-      console.log("===SALT GENERATION SUCCESSFUL===");
-      // If salt generation was successful then we need to hash it
-      bcrypt.hash(req.body.password, salt, (err, hash) => {
-        if (err) {
-          console.log("===HASH PROCESS FAILED");
-          return next(err);
-        } else {
-          user.password = hash
-          next();
-        }
-      });
-    }});
-    
-  console.log(encryptedPassword);
-  console.log("===END OF ENCRYPTION PASSWORD PROGRESS===");
-  console.log("Maybe? -> " + user.password);
-
   var myData = new User({
-    // password: bcrypt.genSalt(req.body.password),
+    password: 'password'
   });
+  myData.save()
+  // user = User.find( {} )
+  // console.log(user.password)
   console.log("My data");
   console.log(myData);
 });
