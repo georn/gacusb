@@ -1,28 +1,16 @@
 const mongoose = require('mongoose'); // ORM
-
-// {
-//   username: 'admin',
-//     password: 'giwwenfondoadqwcqwdgre',
-//       tokens: [{
-//         access: 'auth',
-//         token: 'fnqojnjoakmlfnoqcasmkfnqokw'
-//       }]
-// }
+const bcrypt = require('bcrypt');
+SALT_WORK_FACTOR= 10;
 
 // const Schema = mongoose.Schema;  same as line below ES6
 const { Schema } = mongoose;
 
 // User Schema - SPIKE
-const userSchema = new Schema({
-  username: {
-    type: String,
-    unique: true,
-    minlength: 5,
-    maxlength: 5
-  },
+const UserSchema = new Schema({
   password: {
     type: String,
     unique: true,
+    required: true,
     minlength: 6
   },
   tokens: [{
@@ -37,4 +25,11 @@ const userSchema = new Schema({
   }]
 });
 
-mongoose.model('users', userSchema);
+UserSchema.methods.comparePassword = function(candidatePassword, cb) {
+    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+        if (err) return cb(err);
+        cb(null, isMatch);
+    });
+};
+
+mongoose.model('User', UserSchema);

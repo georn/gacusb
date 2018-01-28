@@ -1,15 +1,18 @@
 const express = require('express');
 const path = require('path');
-const user = require('./models/User.js');
 const session = require('client-sessions');
 const keys = require('./config/devKeys');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const app = express();
 const PORT = 3000;
 
 // Remote database connection - SPIKED
+require('./models/User')
 require('./services/mongoose');
+const User = mongoose.model('User');
+
 
 // bodyParser needed Middleware Configuration for persisting session
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -30,7 +33,6 @@ app.set('view engine', 'ejs');
 // Route - HOME
 // GET /
 app.get('/', (req, res) => {
-  console.log(req.session);
   res.render('index', { user: req.session.user });
 });
 
@@ -42,18 +44,15 @@ app.get('/login', (req, res) => {
 
 // POST /login {password} - SPIKED
 app.post('/login', (req, res) => {
+  // Query for user
+  user = User.find( {} )
+  console.log(user.schema)
 
-  // Fake Password for authentication
-  let dummyPassword = { 
-    password: 'password'
-  };
-
-  if (req.body.password === user.password) { // NEXT STEP - Compare with encrypted password in the database
-    req.session.user = user; // Saving Cookie for persisting session
-    res.redirect('/');
-  } else {
-    console.log('Invalid user credentials'); // Passwords don't match
-  }
+  // if(user.comparePassword(req.body.password)) {
+  //   res.redirect('/');
+  // } else {
+  //   console.log('Invalid user credentials'); // Passwords don't match
+  // }
 });
 
 // POST /logout - SPIKED
