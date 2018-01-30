@@ -17,4 +17,4 @@ const PetSchema = new Schema({
   }
 });
 
-mongoose.model('Pet', UserSchema);
+mongoose.model('Pet', PetSchema);

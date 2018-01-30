@@ -96,6 +96,11 @@ app.post('/logout', (req, res) => {
   res.redirect('/');
 });
 
+// Admin Routes
+app.get('/admin', (req, res) => {
+  res.render('admin', { token: req.session.token });
+});
+
 // Server listener
 app.listen(PORT, () => {
   console.log('Server is running on port ' + PORT);
