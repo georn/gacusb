@@ -65,7 +65,14 @@ app.get('/login', (req, res) => {
 // POST /login {password} - SPIKED
 app.post('/login', (req, res) => {
   // Query for user
-  user = User.find( {} )
+  User.findById('5a6e43196575394836cd45f6', (err, user) => {
+    user.comparePassword(req.body.password, (err, isMatch) => {
+      if (err) {
+        console.log("Password don't match");
+      }
+      console.log(req.body.password, isMatch);
+    });
+  });
 
   // if(user.comparePassword(req.body.password)) {
   //   res.redirect('/');
@@ -73,23 +80,23 @@ app.post('/login', (req, res) => {
   //   console.log('Invalid user credentials'); // Passwords don't match
   // }
 
-  console.log('===SESSION====');
-  console.log(req.session);
-  console.log('===END OF SESSION====');
+  // console.log('===SESSION====');
+  // console.log(req.session);
+  // console.log('===END OF SESSION====');
 
-  let dummyPassword = {
-    password: 'password'
-  }
+  // let dummyPassword = {
+  //   password: 'password'
+  // }
 
-  if(req.body.password == dummyPassword.password) {
-    req.session.dummyPassword = dummyPassword; // Saving Cookie for persisting session
-    console.log('===NEW SESSION IF PASSWORD ARE THE SAME====');
-    console.log(req.session);
-    console.log('===END OF SESSION IF PASSWORD ARE THE SAME====');
-    res.redirect('/');
-  } else {
-    console.log('Invalid credentials');
-  }
+  // if(req.body.password == dummyPassword.password) {
+  //   req.session.dummyPassword = dummyPassword; // Saving Cookie for persisting session
+  //   console.log('===NEW SESSION IF PASSWORD ARE THE SAME====');
+  //   // console.log(req.session);
+  //   console.log('===END OF SESSION IF PASSWORD ARE THE SAME====');
+  //   res.redirect('/');
+  // } else {
+  //   console.log('Invalid credentials');
+  // }
 });
 
 // POST /logout - SPIKED
