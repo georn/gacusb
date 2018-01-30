@@ -71,32 +71,19 @@ app.post('/login', (req, res) => {
         console.log("Password don't match");
       }
       console.log(req.body.password, isMatch);
+
+      if(isMatch){
+        req.session.dummyPassword = user.password
+        console.log('===NEW SESSION IF PASSWORD ARE THE SAME====');
+        console.log(req.session);
+        console.log('===END OF SESSION IF PASSWORD ARE THE SAME====');
+        res.redirect('/');
+      } else {
+        console.log('Invalid credentials');
+      }
+
     });
   });
-
-  // if(user.comparePassword(req.body.password)) {
-  //   res.redirect('/');
-  // } else {
-  //   console.log('Invalid user credentials'); // Passwords don't match
-  // }
-
-  // console.log('===SESSION====');
-  // console.log(req.session);
-  // console.log('===END OF SESSION====');
-
-  // let dummyPassword = {
-  //   password: 'password'
-  // }
-
-  // if(req.body.password == dummyPassword.password) {
-  //   req.session.dummyPassword = dummyPassword; // Saving Cookie for persisting session
-  //   console.log('===NEW SESSION IF PASSWORD ARE THE SAME====');
-  //   // console.log(req.session);
-  //   console.log('===END OF SESSION IF PASSWORD ARE THE SAME====');
-  //   res.redirect('/');
-  // } else {
-  //   console.log('Invalid credentials');
-  // }
 });
 
 // POST /logout - SPIKED
