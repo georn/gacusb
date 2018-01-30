@@ -10,9 +10,11 @@ const app = express();
 const PORT = 3000;
 
 // Remote database connection - SPIKED
+require('./models/Pets')
 require('./models/User')
 require('./services/mongoose');
 const User = mongoose.model('User');
+const Pet = mongoose.model('Pet');
 
 
 // bodyParser needed Middleware Configuration for persisting session
