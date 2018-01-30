@@ -2,35 +2,33 @@ const Browser = require('zombie');
 
 // We're going to make requests to http://example.com/signup
 // Which will be routed to our test server localhost:3000
-Browser.localhost('expample.com', 3000);
+var browser = new Browser({ site: 'http://localhost:3000' });
 
 describe('User visits login page', function() {
 
-  const browser = new Browser();
+  before( done => {
+    browser.visit('/login', done)
+  });
 
-  it('should have a fornm', function() {
+  it('have a form', () => {
     return browser.assert.element('#form');
   });
 
-  it('should have a submit button', function() {
+  it('have a submit button', () => {
     return browser.assert.element('#submit');
   });
 
-  before(function(done) {
-    return browser.visit('/login', done);
-  });
+  describe('submits form', () => {
 
-  describe('submits form', function() {
-
-    before(function(done) {
+    before( done => {
       browser
         .fill('password', 'password')
         .pressButton('Submit', done);
     });
 
-    // it('should be successful', function() {
-    //   browser.assert.success();
-    // });
+    it('is successful', () => {
+      browser.assert.success();
+    });
   });
 
 });
