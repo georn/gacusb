@@ -34,21 +34,22 @@ app.set('view engine', 'ejs');
 // Route - HOME
 // GET /
 app.get('/', (req, res) => {
-  res.render('index', { dummyPassword: req.session.dummyPassword });
+  res.render('index', { token: req.session.token });
 });
 
 // Routes - Authentication
 
-// GET /signup
+// GET /signup - DELETE THIS ROUTE
 app.get('/signup', (req, res) => {
   res.render('signup');
 });
 
-// POST /signup
+// POST /signup - DELETE THIS ROUTE
 app.post('/signup', (req, res) => {
 
   var myData = new User({
     password: 'password'
+    // token: 'token'
   });
   myData.save()
   // user = User.find( {} )
@@ -65,21 +66,22 @@ app.get('/login', (req, res) => {
 // POST /login {password} - SPIKED
 app.post('/login', (req, res) => {
   // Query for user
-  User.findById('5a6e43196575394836cd45f6', (err, user) => {
+  User.findById(keys.userIdSecret, (err, user) => {
     user.comparePassword(req.body.password, (err, isMatch) => {
       if (err) {
-        console.log("Password don't match");
+        // console.log("Password don't match");
+        throw err;
       }
-      console.log(req.body.password, isMatch);
+
+      // console.log(req.body.password, isMatch);
 
       if(isMatch){
-        req.session.dummyPassword = user.password
-        console.log('===NEW SESSION IF PASSWORD ARE THE SAME====');
-        console.log(req.session);
-        console.log('===END OF SESSION IF PASSWORD ARE THE SAME====');
+        req.session.token = user.password // Security problem
+        // console.log(req.session);
         res.redirect('/');
       } else {
-        console.log('Invalid credentials');
+        // console.log('Invalid credentials');
+        res.redirect('/login');
       }
 
     });
